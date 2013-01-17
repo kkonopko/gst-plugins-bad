@@ -24,7 +24,8 @@
 #include "config.h"
 #endif
 
-#include "gst-compat.h"
+#include <string.h>
+
 #include "flutsindex.h"
 
 static gboolean gst_flutsindex_get_writer_id (GstFluTSIndex * index,

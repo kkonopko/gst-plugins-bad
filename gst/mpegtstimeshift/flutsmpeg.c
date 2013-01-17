@@ -42,7 +42,7 @@ gst_flumpegshifter_class_init (GstFluMPEGShifterClass * klass)
   gst_element_class_add_pad_template (element_class,
       gst_static_pad_template_get (&sink_factory));
 
-  gst_element_class_set_details_simple (element_class,
+  gst_element_class_set_static_metadata (element_class,
       "Fluendo Time Shift for MPEG TS streams",
       "Generic",
       "Provide time shift operations on MPEG TS streams",

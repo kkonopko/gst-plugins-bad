@@ -154,7 +154,7 @@ gst_slot_meta_api_get_type (void)
   return type;
 }
 
-const GstMetaInfo *
+static const GstMetaInfo *
 gst_slot_meta_get_info (void)
 {
   static const GstMetaInfo *info = NULL;
@@ -222,7 +222,7 @@ struct _GstShifterCache
 } G_STMT_END
 
 
-void
+static void
 dump_cache_state (GstShifterCache * cache, const gchar * title)
 {
   static const gchar *state_names[] =
@@ -510,8 +510,8 @@ gst_shifter_cache_push (GstShifterCache * cache, guint8 * data, gsize size)
 gboolean
 gst_shifter_cache_has_offset (GstShifterCache * cache, guint64 offset)
 {
-  g_return_val_if_fail (cache != NULL, FALSE);
   gboolean ret;
+  g_return_val_if_fail (cache != NULL, FALSE);
 
   GST_CACHE_LOCK (cache);
   dump_cache_state (cache, "has_offset");
@@ -567,8 +567,10 @@ gst_shifter_cache_seek (GstShifterCache * cache, guint64 offset)
 
   /* First check if we can find it in the ringbuffer */
   if (offset >= cache->l_rb_offset && offset < cache->h_rb_offset) {
+    guint seeker;
+
     GST_DEBUG ("seeking in the ringbuffer");
-    guint seeker = cache->head;
+    seeker = cache->head;
     head = &cache->slots[seeker];
 
     if (offset >= GST_BUFFER_OFFSET (head->buffer)) {

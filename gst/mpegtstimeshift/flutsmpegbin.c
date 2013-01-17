@@ -134,7 +134,7 @@ gst_flumpegshifter_bin_class_init (GstFluMPEGShifterBinClass * klass)
   gstbin_class->handle_message =
       GST_DEBUG_FUNCPTR (gst_flumpegshifter_bin_handle_message);
 
-  gst_element_class_set_metadata (gstelement_class,
+  gst_element_class_set_static_metadata (gstelement_class,
       "Fluendo Time Shift + TS parser for MPEG TS streams", "Generic/Bin",
       "Provide time shift operations on MPEG TS streams",
       "Krzysztof Konopko <krzysztof.konopko@youview.com>");
@@ -168,6 +168,7 @@ gst_element_clear (GstElement ** elem)
 static void
 gst_flumpegshifter_bin_init (GstFluMPEGShifterBin * ts_bin)
 {
+  GstIndex *index = NULL;
   GstBin *bin = GST_BIN (ts_bin);
 
   ts_bin->parser = gst_element_factory_make ("tsparse", "parser");
@@ -184,7 +185,7 @@ gst_flumpegshifter_bin_init (GstFluMPEGShifterBin * ts_bin)
   g_return_if_fail (gst_element_link_many (ts_bin->parser, ts_bin->indexer,
           ts_bin->timeshifter, ts_bin->seeker, NULL));
 
-  GstIndex *index = gst_index_factory_make ("memindex");
+  index = gst_index_factory_make ("memindex");
   g_object_set (G_OBJECT (ts_bin->indexer), "index", index, NULL);
   g_object_set (G_OBJECT (ts_bin->seeker), "index", index, NULL);
   g_object_unref (index);

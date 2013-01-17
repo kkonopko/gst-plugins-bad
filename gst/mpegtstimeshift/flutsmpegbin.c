@@ -156,12 +156,11 @@ mirror_pad (GstElement * element, const gchar * static_pad_name, GstBin * bin)
 }
 
 static void
-gst_element_clear(GstElement ** elem)
+gst_element_clear (GstElement ** elem)
 {
   g_return_if_fail (!elem);
-  if (*elem)
-  {
-    g_object_unref(G_OBJECT(*elem));
+  if (*elem) {
+    g_object_unref (G_OBJECT (*elem));
     *elem = NULL;
   }
 }
@@ -181,11 +180,11 @@ gst_flumpegshifter_bin_init (GstFluMPEGShifterBin * ts_bin)
     goto error;
 
   gst_bin_add_many (bin, ts_bin->parser, ts_bin->indexer, ts_bin->timeshifter,
-          ts_bin->seeker, NULL);
+      ts_bin->seeker, NULL);
   g_return_if_fail (gst_element_link_many (ts_bin->parser, ts_bin->indexer,
           ts_bin->timeshifter, ts_bin->seeker, NULL));
 
-  GstIndex * index = gst_index_factory_make ("memindex");
+  GstIndex *index = gst_index_factory_make ("memindex");
   g_object_set (G_OBJECT (ts_bin->indexer), "index", index, NULL);
   g_object_set (G_OBJECT (ts_bin->seeker), "index", index, NULL);
   g_object_unref (index);

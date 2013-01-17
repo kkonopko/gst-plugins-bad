@@ -25,12 +25,10 @@ GST_DEBUG_CATEGORY_EXTERN (ts_mpeg);
 #define gst_flumpegshifter_parent_class parent_class
 G_DEFINE_TYPE (GstFluMPEGShifter, gst_flumpegshifter, GST_FLUTSBASE_TYPE);
 
-static GstStaticPadTemplate src_factory =
-GST_STATIC_PAD_TEMPLATE ("src",
+static GstStaticPadTemplate src_factory = GST_STATIC_PAD_TEMPLATE ("src",
     GST_PAD_SRC, GST_PAD_ALWAYS, GST_STATIC_CAPS ("video/mpegts"));
 
-static GstStaticPadTemplate sink_factory =
-GST_STATIC_PAD_TEMPLATE ("sink",
+static GstStaticPadTemplate sink_factory = GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK, GST_PAD_ALWAYS, GST_STATIC_CAPS ("video/mpegts"));
 
 static void

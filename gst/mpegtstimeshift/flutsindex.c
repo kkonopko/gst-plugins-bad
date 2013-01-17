@@ -35,7 +35,7 @@ static gint
 gst_flutsindex_get_id (GstFluTSIndex * index)
 {
   if (index->id == -1) {
-    gst_flutsindex_get_writer_id(index, GST_OBJECT(index), &index->id);
+    gst_flutsindex_get_writer_id (index, GST_OBJECT (index), &index->id);
   }
   return index->id;
 }

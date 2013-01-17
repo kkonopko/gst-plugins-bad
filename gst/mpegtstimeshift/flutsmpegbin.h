@@ -25,7 +25,6 @@
 #include <gst/gst.h>
 
 G_BEGIN_DECLS
-
 #define GST_TYPE_FLUMPEGSHIFTER_BIN \
   (gst_flumpegshifter_bin_get_type())
 #define GST_FLUMPEGSHIFTER_BIN(obj) \
@@ -37,7 +36,6 @@ G_BEGIN_DECLS
 #define GST_IS_FLUMPEGSHIFTER_BIN_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_FLUMPEGSHIFTER_BIN))
 #define GST_FLUMPEGSHIFTER_BIN_CAST(obj) ((GstFluMPEGShifterBin *) (obj))
-
 typedef struct _GstFluMPEGShifterBin GstFluMPEGShifterBin;
 typedef struct _GstFluMPEGShifterBinClass GstFluMPEGShifterBinClass;
 
@@ -45,10 +43,10 @@ struct _GstFluMPEGShifterBin
 {
   GstBin parent_instance;
 
-  GstElement * parser;
-  GstElement * indexer;
-  GstElement * timeshifter;
-  GstElement * seeker;
+  GstElement *parser;
+  GstElement *indexer;
+  GstElement *timeshifter;
+  GstElement *seeker;
 };
 
 struct _GstFluMPEGShifterBinClass
@@ -59,5 +57,4 @@ struct _GstFluMPEGShifterBinClass
 GType gst_flumpegshifter_bin_get_type (void);
 
 G_END_DECLS
-
 #endif /* __FLUTSMPEGBIN_H__ */

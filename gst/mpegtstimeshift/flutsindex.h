@@ -225,7 +225,7 @@ struct _GstFluTSIndexClass
   GstObjectClass parent_class;
 
   /*< protected > */
-  gboolean (*get_writer_id) (GstFluTSIndex * index, gint * id,
+    gboolean (*get_writer_id) (GstFluTSIndex * index, gint * id,
       gchar * writer);
 
   /* abstract methods */

@@ -25,13 +25,11 @@
 #include "flutsindex.h"
 
 G_BEGIN_DECLS
-
 #define GST_TYPE_TIME_SHIFT_TS_INDEXER   (gst_time_shift_ts_indexer_get_type())
 #define GST_TIME_SHIFT_TS_INDEXER(obj)   (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_TIME_SHIFT_TS_INDEXER,GstTimeShiftTsIndexer))
 #define GST_TIME_SHIFT_TS_INDEXER_CLASS(klass)   (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_TIME_SHIFT_TS_INDEXER,GstTimeShiftTsIndexerClass))
 #define GST_IS_TIME_SHIFT_TS_INDEXER(obj)   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_TIME_SHIFT_TS_INDEXER))
 #define GST_IS_TIME_SHIFT_TS_INDEXER_CLASS(obj)   (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_TIME_SHIFT_TS_INDEXER))
-
 typedef struct _GstTimeShiftTsIndexer GstTimeShiftTsIndexer;
 typedef struct _GstTimeShiftTsIndexerClass GstTimeShiftTsIndexerClass;
 
@@ -62,5 +60,4 @@ struct _GstTimeShiftTsIndexerClass
 GType gst_time_shift_ts_indexer_get_type (void);
 
 G_END_DECLS
-
 #endif

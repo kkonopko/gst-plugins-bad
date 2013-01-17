@@ -24,13 +24,11 @@
 #include "flutsindex.h"
 
 G_BEGIN_DECLS
-
 #define GST_TYPE_TIME_SHIFT_SEEKER   (gst_time_shift_seeker_get_type())
 #define GST_TIME_SHIFT_SEEKER(obj)   (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_TIME_SHIFT_SEEKER,GstTimeShiftSeeker))
 #define GST_TIME_SHIFT_SEEKER_CLASS(klass)   (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_TIME_SHIFT_SEEKER,GstTimeShiftSeekerClass))
 #define GST_IS_TIME_SHIFT_SEEKER(obj)   (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_TIME_SHIFT_SEEKER))
 #define GST_IS_TIME_SHIFT_SEEKER_CLASS(obj)   (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_TIME_SHIFT_SEEKER))
-
 typedef struct _GstTimeShiftSeeker GstTimeShiftSeeker;
 typedef struct _GstTimeShiftSeekerClass GstTimeShiftSeekerClass;
 
@@ -52,5 +50,4 @@ struct _GstTimeShiftSeekerClass
 GType gst_time_shift_seeker_get_type (void);
 
 G_END_DECLS
-
 #endif

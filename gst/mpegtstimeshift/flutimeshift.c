@@ -60,7 +60,7 @@ plugin_init (GstPlugin * plugin)
     return FALSE;
 
   if (!gst_element_register (plugin, "timeshifttsindexer", GST_RANK_NONE,
-      gst_time_shift_ts_indexer_get_type ()))
+          gst_time_shift_ts_indexer_get_type ()))
     return FALSE;
 
   return TRUE;
@@ -70,4 +70,3 @@ GST_PLUGIN_DEFINE (GST_VERSION_MAJOR, GST_VERSION_MINOR,
     flutimeshift, "Fluendo Time Shift element",
     plugin_init, VERSION, "LGPL", PACKAGE_NAME,
     "http://www.fluendo.com, http://www.youview.com");
-

@@ -233,8 +233,7 @@ dump_cache_state (GstShifterCache * cache, const gchar * title)
       g_atomic_int_get (&cache->fslots));
   GST_DEBUG ("     h_rb_offset %" G_GUINT64_FORMAT " l_rb_offset %"
       G_GUINT64_FORMAT " h_offset %" G_GUINT64_FORMAT,
-      cache->h_rb_offset, cache->l_rb_offset,
-      cache->h_offset);
+      cache->h_rb_offset, cache->l_rb_offset, cache->h_offset);
 
   for (i = 0; i < cache->nslots; i++) {
     Slot *slot = &cache->slots[i];
@@ -295,8 +294,8 @@ gst_shifter_cache_new (gsize size, const gchar * allocator_name)
 
   cache->slots = (Slot *) g_new (Slot, nslots);
   for (i = 0; i < cache->nslots; i++) {
-    GstBuffer *buf = gst_buffer_new_allocate (
-       cache->alloc, CACHE_SLOT_SIZE, NULL);
+    GstBuffer *buf =
+        gst_buffer_new_allocate (cache->alloc, CACHE_SLOT_SIZE, NULL);
 
     g_return_val_if_fail (buf, NULL);
 
@@ -461,7 +460,7 @@ gst_shifter_cache_pop (GstShifterCache * cache, gboolean drain)
  */
 
 gboolean
-gst_shifter_cache_push (GstShifterCache * cache, guint8 *data, gsize size)
+gst_shifter_cache_push (GstShifterCache * cache, guint8 * data, gsize size)
 {
   Slot *tail;
   gsize avail;
@@ -530,7 +529,7 @@ gst_shifter_cache_has_offset (GstShifterCache * cache, guint64 offset)
  * equivalent to the "duration" of the cache in bytes.
  */
 guint64
-gst_shifter_cache_get_total_bytes_received(GstShifterCache * cache)
+gst_shifter_cache_get_total_bytes_received (GstShifterCache * cache)
 {
   guint64 offset;
   GST_CACHE_LOCK (cache);
@@ -586,7 +585,7 @@ gst_shifter_cache_seek (GstShifterCache * cache, guint64 offset)
         seeker = (seeker + 1) % cache->nslots;
         head = &cache->slots[seeker];
       } while (!(offset >= GST_BUFFER_OFFSET (head->buffer) &&
-          offset < GST_BUFFER_OFFSET (head->buffer) + head->size));
+              offset < GST_BUFFER_OFFSET (head->buffer) + head->size));
       gst_shifter_cache_rollback (cache, head);
     } else {
       /* perform seek in the past */
@@ -603,7 +602,7 @@ gst_shifter_cache_seek (GstShifterCache * cache, guint64 offset)
           break;
         }
       } while (!(offset >= GST_BUFFER_OFFSET (head->buffer) &&
-          offset < GST_BUFFER_OFFSET (head->buffer) + head->size));
+              offset < GST_BUFFER_OFFSET (head->buffer) + head->size));
     }
     cache->head = seeker;
     goto beach;

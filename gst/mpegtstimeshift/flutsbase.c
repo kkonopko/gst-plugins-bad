@@ -37,7 +37,7 @@ enum
 /* default property values */
 #define DEFAULT_RECORDING_REMOVE   TRUE
 #define DEFAULT_MIN_CACHE_SIZE     (4 * CACHE_SLOT_SIZE)        /* 4 cache slots */
-#define DEFAULT_CACHE_SIZE         (256 * 1024 * 1024)          /* 256 MB */
+#define DEFAULT_CACHE_SIZE         (256 * 1024 * 1024)  /* 256 MB */
 
 enum
 {
@@ -148,8 +148,7 @@ gst_flutsbase_set_allocator (GstFluTSBase * ts, const gchar * allocator)
 /* ERROR */
 wrong_state:
   {
-    GST_WARNING_OBJECT (ts,
-        "setting allocator-name property in wrong state");
+    GST_WARNING_OBJECT (ts, "setting allocator-name property in wrong state");
     GST_OBJECT_UNLOCK (ts);
   }
 }
@@ -181,7 +180,7 @@ gst_flutsbase_pop (GstFluTSBase * ts)
     GstEvent *newsegment;
 
     ts->segment.start = GST_BUFFER_OFFSET (buffer);
-    ts->segment.time = 0; /* <- Not relevant for FORMAT_BYTES */
+    ts->segment.time = 0;       /* <- Not relevant for FORMAT_BYTES */
     ts->segment.flags |= GST_SEGMENT_FLAG_RESET;
 
     GST_DEBUG_OBJECT (ts, "pushing segment %" GST_SEGMENT_FORMAT, &ts->segment);
@@ -376,7 +375,7 @@ gst_flutsbase_chain (GstPad * pad, GstObject * parent, GstBuffer * buffer)
   gst_buffer_unmap (buffer, &map);
 
   gst_buffer_unref (buffer);
- 
+
   return res;
 }
 
@@ -468,7 +467,7 @@ gst_flutsbase_sink_event (GstPad * pad, GstObject * parent, GstEvent * event)
 }
 
 static guint64
-gst_flutsbase_get_bytes_offset(GstFluTSBase * ts, GstFormat format,
+gst_flutsbase_get_bytes_offset (GstFluTSBase * ts, GstFormat format,
     GstSeekType type, gint64 start)
 {
   guint64 offset;
@@ -483,7 +482,7 @@ gst_flutsbase_get_bytes_offset(GstFluTSBase * ts, GstFormat format,
     if (type == GST_SEEK_TYPE_SET) {
       offset = start;
     } else if (type == GST_SEEK_TYPE_END) {
-      offset = gst_shifter_cache_get_total_bytes_received(ts->cache) + start;
+      offset = gst_shifter_cache_get_total_bytes_received (ts->cache) + start;
     } else {
       offset = -1;
     }
@@ -510,8 +509,9 @@ gst_flutsbase_handle_seek (GstFluTSBase * ts, GstEvent * event)
     goto beach;
   }
 
-  offset = gst_flutsbase_get_bytes_offset(ts, format, start_type, start);
-  if (G_UNLIKELY (offset == (guint64) -1 || !gst_shifter_cache_has_offset (ts->cache, offset))) {
+  offset = gst_flutsbase_get_bytes_offset (ts, format, start_type, start);
+  if (G_UNLIKELY (offset == (guint64) - 1
+          || !gst_shifter_cache_has_offset (ts->cache, offset))) {
     GST_WARNING_OBJECT (ts, "seek failed");
     goto beach;
   }
@@ -596,7 +596,7 @@ static gboolean
 gst_flutsbase_query (GstElement * element, GstQuery * query)
 {
   gboolean ret = TRUE;
-  GstFluTSBase * ts = GST_FLUTSBASE (element);
+  GstFluTSBase *ts = GST_FLUTSBASE (element);
 
   switch (GST_QUERY_TYPE (query)) {
     case GST_QUERY_POSITION:
@@ -630,12 +630,11 @@ gst_flutsbase_query (GstElement * element, GstQuery * query)
 
       if (format == GST_FORMAT_BYTES) {
         GST_LOG_OBJECT (ts, "replying duration query with %" G_GUINT64_FORMAT,
-            gst_shifter_cache_get_total_bytes_received(ts->cache));
-        gst_query_set_duration (query, GST_FORMAT_BYTES, 
-            gst_shifter_cache_get_total_bytes_received(ts->cache));
+            gst_shifter_cache_get_total_bytes_received (ts->cache));
+        gst_query_set_duration (query, GST_FORMAT_BYTES,
+            gst_shifter_cache_get_total_bytes_received (ts->cache));
         ret = TRUE;
-      }
-      else {
+      } else {
         ret = FALSE;
       }
       break;
@@ -648,8 +647,7 @@ gst_flutsbase_query (GstElement * element, GstQuery * query)
       if (fmt == GST_FORMAT_BYTES) {
         gst_query_set_seeking (query, fmt, TRUE, 0, -1);
         ret = TRUE;
-      }
-      else {
+      } else {
         ret = FALSE;
       }
       break;
@@ -710,7 +708,9 @@ gst_flutsbase_src_activate (GstPad * pad, GstObject * parent, gboolean active)
     ts->sinkresult = GST_FLOW_OK;
     ts->is_eos = FALSE;
     ts->unexpected = FALSE;
-    ret = gst_pad_start_task (pad, (GstTaskFunction) gst_flutsbase_loop, pad, NULL);
+    ret =
+        gst_pad_start_task (pad, (GstTaskFunction) gst_flutsbase_loop, pad,
+        NULL);
     FLOW_MUTEX_UNLOCK (ts);
   } else {
     /* unblock loop function */
@@ -725,18 +725,20 @@ gst_flutsbase_src_activate (GstPad * pad, GstObject * parent, gboolean active)
     /* step 2, make sure streaming finishes */
     ret = gst_pad_stop_task (pad);
   }
- 
+
   return ret;
 }
 
 static gboolean
-gst_flutsbase_handle_sink_event (GstPad * pad, GstObject * parent, GstEvent * event)
+gst_flutsbase_handle_sink_event (GstPad * pad, GstObject * parent,
+    GstEvent * event)
 {
   return gst_flutsbase_sink_event (pad, parent, event);
 }
 
 static gboolean
-gst_flutsbase_handle_src_event (GstPad * pad, GstObject * parent, GstEvent * event)
+gst_flutsbase_handle_src_event (GstPad * pad, GstObject * parent,
+    GstEvent * event)
 {
   return gst_flutsbase_src_event (pad, parent, event);
 }

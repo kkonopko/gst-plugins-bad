@@ -23,7 +23,6 @@
 #define __FLUCACHE_H__
 
 G_BEGIN_DECLS
-
 #define CACHE_SLOT_SIZE (32 * 1024)     /* Ring Buffer data unit size */
 /**
  * GstShifterCache:
@@ -35,21 +34,22 @@ G_BEGIN_DECLS
  */
 typedef struct _GstShifterCache GstShifterCache;
 
-GstShifterCache *gst_shifter_cache_new (gsize size, const gchar * allocator_name);
+GstShifterCache *gst_shifter_cache_new (gsize size,
+    const gchar * allocator_name);
 
 GstShifterCache *gst_shifter_cache_ref (GstShifterCache * cache);
 void gst_shifter_cache_unref (GstShifterCache * cache);
 
-gboolean gst_shifter_cache_push (GstShifterCache * cache, guint8 *data, gsize size);
+gboolean gst_shifter_cache_push (GstShifterCache * cache, guint8 * data,
+    gsize size);
 GstBuffer *gst_shifter_cache_pop (GstShifterCache * cache, gboolean drain);
 
 gboolean gst_shifter_cache_has_offset (GstShifterCache * cache, guint64 offset);
-guint64 gst_shifter_cache_get_total_bytes_received(GstShifterCache * cache);
+guint64 gst_shifter_cache_get_total_bytes_received (GstShifterCache * cache);
 gboolean gst_shifter_cache_seek (GstShifterCache * cache, guint64 offset);
 
 gboolean gst_shifter_cache_is_empty (GstShifterCache * cache);
 guint64 gst_shifter_cache_fullness (GstShifterCache * cache);
 
 G_END_DECLS
-
 #endif /* __FLUCACHE_H__ */

@@ -1,4 +1,4 @@
-/* GStreamer
+/* GStreamer MPEG TS Time Shifting
  * Copyright (C) 2013 YouView TV Ltd. <william.manley@youview.com>
  *
  * This library is free software; you can redistribute it and/or

@@ -1,6 +1,6 @@
-/* GStreamer
+/* GStreamer MPEG TS Time Shifting
  * Copyright (C) 2011 Fluendo S.A. <support@fluendo.com>
- * Copyright (C) 2013 YouView TV Ltd. <will@williammanley.net>
+ * Copyright (C) 2013 YouView TV Ltd. <william.manley@youview.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

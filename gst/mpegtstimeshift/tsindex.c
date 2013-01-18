@@ -26,7 +26,7 @@
 
 #include <string.h>
 
-#include "flutsindex.h"
+#include "tsindex.h"
 
 static gboolean gst_flutsindex_get_writer_id (GstFluTSIndex * index,
     GstObject * writer, gint * id);

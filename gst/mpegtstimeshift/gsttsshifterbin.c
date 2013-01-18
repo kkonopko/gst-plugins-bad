@@ -17,9 +17,9 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "flucache.h"
-#include "flutsmpegbin.h"
-#include "flutsindex.h"
+#include "gsttsshifterbin.h"
+#include "tscache.h"
+#include "tsindex.h"
 
 GST_DEBUG_CATEGORY_EXTERN (ts_mpeg_bin);
 #define GST_CAT_DEFAULT ts_mpeg_bin

@@ -35,7 +35,7 @@
 #include <gst/gst.h>
 #include <gst/gstelement.h>
 #include <gst/base/gstbasetransform.h>
-#include "gsttimeshifttsindexer.h"
+#include "gsttsindexer.h"
 
 GST_DEBUG_CATEGORY_STATIC (gst_time_shift_ts_indexer_debug_category);
 #define GST_CAT_DEFAULT gst_time_shift_ts_indexer_debug_category

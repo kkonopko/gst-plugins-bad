@@ -21,7 +21,7 @@
 #ifndef __FLUTSMPEG_H__
 #define __FLUTSMPEG_H__
 
-#include "flutsbase.h"
+#include "tsbase.h"
 
 G_BEGIN_DECLS
 #define GST_FLUMPEGSHIFTER_TYPE \

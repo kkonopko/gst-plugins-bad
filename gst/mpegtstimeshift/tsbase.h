@@ -21,7 +21,7 @@
 #ifndef __FLUTSBASE_H__
 #define __FLUTSBASE_H__
 
-#include "flucache.h"
+#include "tscache.h"
 
 G_BEGIN_DECLS
 #define GST_FLUTSBASE_TYPE \

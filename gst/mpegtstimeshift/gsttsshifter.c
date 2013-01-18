@@ -18,7 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "flutsmpeg.h"
+#include "gsttsshifter.h"
 
 GST_DEBUG_CATEGORY_EXTERN (ts_mpeg);
 #define GST_CAT_DEFAULT ts_mpeg

@@ -22,9 +22,7 @@
 #include "config.h"
 #endif
 
-#include "flucache.h"
-
-#include <gst/gstfilememallocator.h>
+#include "tscache.h"
 
 #include <stdio.h>
 #include <glib/gstdio.h>

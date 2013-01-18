@@ -2,15 +2,15 @@ plugin_LTLIBRARIES = libgstflutimeshift.la
 
 # sources used to compile this plugin
 libgstflutimeshift_la_SOURCES = \
-  flutimeshift.c \
-  flutsbase.c \
-  flucache.c \
-  flutsmpeg.c \
-  flutsmpegbin.c \
-  flutsindex.c \
-  flutsmemindex.c \
-  gsttimeshiftseeker.c \
-  gsttimeshifttsindexer.c
+  gsttsindexer.c \
+  gsttsseeker.c \
+  gsttsshifter.c \
+  gsttsshifterbin.c \
+  gsttstimeshift.c \
+  tsbase.c \
+  tscache.c \
+  tsindex.c \
+  tsmemindex.c
 
 libgstflutimeshift_la_CFLAGS = \
  -I$(top_srcdir)/common \
@@ -30,11 +30,10 @@ libgstflutimeshift_la_LIBADD = \
 
 # headers we need but don't want installed
 noinst_HEADERS = \
-  flutsbase.h \
-  flucache.h \
-  flutsmpeg.h \
-  flutsmpegbin.h \
-  flutsindex.h \
-  gsttimeshiftseeker.h \
-  gsttimeshifttsindexer.h
-
+  gsttsindexer.h \
+  gsttsseeker.h \
+  gsttsshifter.h \
+  gsttsshifterbin.h \
+  tsbase.h \
+  tscache.h \
+  tsindex.h

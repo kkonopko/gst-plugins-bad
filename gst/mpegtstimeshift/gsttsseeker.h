@@ -21,7 +21,7 @@
 #define _GST_TIME_SHIFT_SEEKER_H_
 
 #include <gst/base/gstbasetransform.h>
-#include "flutsindex.h"
+#include "tsindex.h"
 
 G_BEGIN_DECLS
 #define GST_TYPE_TIME_SHIFT_SEEKER   (gst_time_shift_seeker_get_type())

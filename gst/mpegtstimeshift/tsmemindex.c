@@ -17,7 +17,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "flutsindex.h"
+#include "tsindex.h"
 
 #define GST_TYPE_FLUTS_MEM_INDEX              \
   (gst_flutsindex_get_type ())

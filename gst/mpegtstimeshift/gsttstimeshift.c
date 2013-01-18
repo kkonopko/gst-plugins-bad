@@ -22,10 +22,10 @@
 #include "config.h"
 #endif
 
-#include "flutsmpeg.h"
-#include "flutsmpegbin.h"
-#include "gsttimeshiftseeker.h"
-#include "gsttimeshifttsindexer.h"
+#include "gsttsshifter.h"
+#include "gsttsshifterbin.h"
+#include "gsttsseeker.h"
+#include "gsttsindexer.h"
 
 GST_DEBUG_CATEGORY (ts_base);
 GST_DEBUG_CATEGORY (ts_flow);

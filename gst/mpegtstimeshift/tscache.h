@@ -20,37 +20,35 @@
 
 #include <gst/gst.h>
 
-#ifndef __FLUCACHE_H__
-#define __FLUCACHE_H__
+#ifndef __TS_CACHE_H__
+#define __TS_CACHE_H__
 
 G_BEGIN_DECLS
 #define CACHE_SLOT_SIZE (32 * 1024)     /* Ring Buffer data unit size */
 /**
- * GstShifterCache:
+ * GstTSCache:
  *
  * Opaque data cache.
  *
- * Use the acessor functions to get the stored values.
+ * Use the accessor functions to get the stored values.
  *
  */
-typedef struct _GstShifterCache GstShifterCache;
+typedef struct _GstTSCache GstTSCache;
 
-GstShifterCache *gst_shifter_cache_new (gsize size,
-    const gchar * allocator_name);
+GstTSCache *gst_ts_cache_new (gsize size, const gchar * allocator_name);
 
-GstShifterCache *gst_shifter_cache_ref (GstShifterCache * cache);
-void gst_shifter_cache_unref (GstShifterCache * cache);
+GstTSCache *gst_ts_cache_ref (GstTSCache * cache);
+void gst_ts_cache_unref (GstTSCache * cache);
 
-gboolean gst_shifter_cache_push (GstShifterCache * cache, guint8 * data,
-    gsize size);
-GstBuffer *gst_shifter_cache_pop (GstShifterCache * cache, gboolean drain);
+gboolean gst_ts_cache_push (GstTSCache * cache, guint8 * data, gsize size);
+GstBuffer *gst_ts_cache_pop (GstTSCache * cache, gboolean drain);
 
-gboolean gst_shifter_cache_has_offset (GstShifterCache * cache, guint64 offset);
-guint64 gst_shifter_cache_get_total_bytes_received (GstShifterCache * cache);
-gboolean gst_shifter_cache_seek (GstShifterCache * cache, guint64 offset);
+gboolean gst_ts_cache_has_offset (GstTSCache * cache, guint64 offset);
+guint64 gst_ts_cache_get_total_bytes_received (GstTSCache * cache);
+gboolean gst_ts_cache_seek (GstTSCache * cache, guint64 offset);
 
-gboolean gst_shifter_cache_is_empty (GstShifterCache * cache);
-guint64 gst_shifter_cache_fullness (GstShifterCache * cache);
+gboolean gst_ts_cache_is_empty (GstTSCache * cache);
+guint64 gst_ts_cache_fullness (GstTSCache * cache);
 
 G_END_DECLS
-#endif /* __FLUCACHE_H__ */
+#endif /* __TS_CACHE_H__ */

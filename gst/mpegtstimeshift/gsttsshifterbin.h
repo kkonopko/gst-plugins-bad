@@ -17,27 +17,27 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __FLUTSMPEGBIN_H__
-#define __FLUTSMPEGBIN_H__
+#ifndef __GST_TS_SHIFTERBIN_H__
+#define __GST_TS_SHIFTERBIN_H__
 
 #include <gst/gst.h>
 
 G_BEGIN_DECLS
-#define GST_TYPE_FLUMPEGSHIFTER_BIN \
-  (gst_flumpegshifter_bin_get_type())
-#define GST_FLUMPEGSHIFTER_BIN(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_FLUMPEGSHIFTER_BIN,GstFluMPEGShifterBin))
-#define GST_FLUMPEGSHIFTER_BIN_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_FLUMPEGSHIFTER_BIN,GstFluMPEGShifterBinClass))
-#define GST_IS_FLUMPEGSHIFTER_BIN(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_FLUMPEGSHIFTER_BIN))
-#define GST_IS_FLUMPEGSHIFTER_BIN_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_FLUMPEGSHIFTER_BIN))
-#define GST_FLUMPEGSHIFTER_BIN_CAST(obj) ((GstFluMPEGShifterBin *) (obj))
-typedef struct _GstFluMPEGShifterBin GstFluMPEGShifterBin;
-typedef struct _GstFluMPEGShifterBinClass GstFluMPEGShifterBinClass;
+#define GST_TYPE_TS_SHIFTER_BIN \
+  (gst_ts_shifter_bin_get_type())
+#define GST_TS_SHIFTER_BIN(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_TS_SHIFTER_BIN,GstTSShifterBin))
+#define GST_TS_SHIFTER_BIN_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_TS_SHIFTER_BIN,GstTSShifterBinClass))
+#define GST_IS_TS_SHIFTER_BIN(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_TS_SHIFTER_BIN))
+#define GST_IS_TS_SHIFTER_BIN_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_TS_SHIFTER_BIN))
+#define GST_TS_SHIFTER_BIN_CAST(obj) ((GstTSShifterBin *) (obj))
+typedef struct _GstTSShifterBin GstTSShifterBin;
+typedef struct _GstTSShifterBinClass GstTSShifterBinClass;
 
-struct _GstFluMPEGShifterBin
+struct _GstTSShifterBin
 {
   GstBin parent_instance;
 
@@ -47,12 +47,12 @@ struct _GstFluMPEGShifterBin
   GstElement *seeker;
 };
 
-struct _GstFluMPEGShifterBinClass
+struct _GstTSShifterBinClass
 {
   GstBinClass parent_class;
 };
 
-GType gst_flumpegshifter_bin_get_type (void);
+GType gst_ts_shifter_bin_get_type (void);
 
 G_END_DECLS
-#endif /* __FLUTSMPEGBIN_H__ */
+#endif /* __GST_TS_SHIFTER_H__ */

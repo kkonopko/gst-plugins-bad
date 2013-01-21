@@ -20,11 +20,11 @@
 
 #include "gsttsshifter.h"
 
-GST_DEBUG_CATEGORY_EXTERN (ts_mpeg);
-#define GST_CAT_DEFAULT ts_mpeg
+GST_DEBUG_CATEGORY_EXTERN (ts_shifter);
+#define GST_CAT_DEFAULT ts_shifter
 
-#define gst_flumpegshifter_parent_class parent_class
-G_DEFINE_TYPE (GstFluMPEGShifter, gst_flumpegshifter, GST_FLUTSBASE_TYPE);
+#define gst_mpegshifter_parent_class parent_class
+G_DEFINE_TYPE (GstTSShifter, gst_ts_shifter, GST_TS_BASE_TYPE);
 
 static GstStaticPadTemplate src_factory = GST_STATIC_PAD_TEMPLATE ("src",
     GST_PAD_SRC, GST_PAD_ALWAYS, GST_STATIC_CAPS ("video/mpegts"));
@@ -33,7 +33,7 @@ static GstStaticPadTemplate sink_factory = GST_STATIC_PAD_TEMPLATE ("sink",
     GST_PAD_SINK, GST_PAD_ALWAYS, GST_STATIC_CAPS ("video/mpegts"));
 
 static void
-gst_flumpegshifter_class_init (GstFluMPEGShifterClass * klass)
+gst_ts_shifter_class_init (GstTSShifterClass * klass)
 {
   GstElementClass *element_class = GST_ELEMENT_CLASS (klass);
 
@@ -44,13 +44,13 @@ gst_flumpegshifter_class_init (GstFluMPEGShifterClass * klass)
       gst_static_pad_template_get (&sink_factory));
 
   gst_element_class_set_static_metadata (element_class,
-      "Fluendo Time Shift for MPEG TS streams",
+      "Time Shift for MPEG TS streams",
       "Generic",
       "Provide time shift operations on MPEG TS streams",
       "Fluendo S.A. <support@fluendo.com>");
 }
 
 static void
-gst_flumpegshifter_init (GstFluMPEGShifter * ts)
+gst_ts_shifter_init (GstTSShifter * ts)
 {
 }

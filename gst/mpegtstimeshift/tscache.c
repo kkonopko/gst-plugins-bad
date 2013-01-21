@@ -115,7 +115,7 @@ struct _SlotMeta
   GstMeta meta;
 
   /* Reference to the cache we belong to */
-  GstShifterCache *cache;
+  GstTSCache *cache;
   Slot *slot;
 };
 
@@ -137,7 +137,7 @@ gst_slot_meta_free (SlotMeta * meta, GstBuffer * buffer)
     g_atomic_int_set (&meta->slot->state, STATE_RECYCLE);
 
   if (meta->cache)
-    gst_shifter_cache_unref (meta->cache);
+    gst_ts_cache_unref (meta->cache);
 }
 
 GType
@@ -170,14 +170,14 @@ gst_slot_meta_get_info (void)
 }
 
 static GstBuffer *
-gst_slot_buffer_new (GstShifterCache * cache, Slot * slot)
+gst_slot_buffer_new (GstTSCache * cache, Slot * slot)
 {
   SlotMeta *meta;
 
   GstBuffer *buffer = gst_buffer_copy (slot->buffer);
 
   meta = (SlotMeta *) gst_buffer_add_meta (buffer, SLOT_META_INFO, NULL);
-  meta->cache = gst_shifter_cache_ref (cache);
+  meta->cache = gst_ts_cache_ref (cache);
   meta->slot = slot;
 
   GST_BUFFER_OFFSET (buffer) = GST_BUFFER_OFFSET (slot->buffer);
@@ -186,9 +186,9 @@ gst_slot_buffer_new (GstShifterCache * cache, Slot * slot)
   return buffer;
 }
 
-/* GstShifterCache */
+/* GstTSCache */
 
-struct _GstShifterCache
+struct _GstTSCache
 {
   volatile gint refcount;
 
@@ -222,7 +222,7 @@ struct _GstShifterCache
 
 
 static void
-dump_cache_state (GstShifterCache * cache, const gchar * title)
+dump_cache_state (GstTSCache * cache, const gchar * title)
 {
   static const gchar *state_names[] =
       { "EMPTY   ", "PART    ", "FULL    ", "POP     ", "RECYCLE " };
@@ -244,7 +244,7 @@ dump_cache_state (GstShifterCache * cache, const gchar * title)
 }
 
 static inline void
-gst_shifter_cache_flush (GstShifterCache * cache)
+gst_ts_cache_flush (GstTSCache * cache)
 {
   guint i;
   for (i = 0; i < cache->nslots; i++) {
@@ -259,23 +259,23 @@ gst_shifter_cache_flush (GstShifterCache * cache)
 }
 
 /**
- * gst_shifter_cache_new:
+ * gst_ts_cache_new:
  * @size: cache size
  *
  * Create a new cache instance. @size will be rounded up to the
  * nearest CACHE_SLOT_SIZE multiple and used as the ringbuffer size.
  *
- * Returns: a new #GstShifterCache
+ * Returns: a new #GstTSCache
  *
  */
-GstShifterCache *
-gst_shifter_cache_new (gsize size, const gchar * allocator_name)
+GstTSCache *
+gst_ts_cache_new (gsize size, const gchar * allocator_name)
 {
-  GstShifterCache *cache;
+  GstTSCache *cache;
   guint nslots;
   int i;
 
-  cache = g_new (GstShifterCache, 1);
+  cache = g_new (GstTSCache, 1);
 
   cache->refcount = 1;
 
@@ -301,20 +301,20 @@ gst_shifter_cache_new (gsize size, const gchar * allocator_name)
     cache->slots[i].buffer = buf;
   }
 
-  gst_shifter_cache_flush (cache);
+  gst_ts_cache_flush (cache);
 
   return cache;
 }
 
 /**
- * gst_shifter_cache_ref:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_ref:
+ * @cache: a #GstTSCache
  *
  * Increase the refcount of @cache.
  *
  */
-GstShifterCache *
-gst_shifter_cache_ref (GstShifterCache * cache)
+GstTSCache *
+gst_ts_cache_ref (GstTSCache * cache)
 {
   g_return_val_if_fail (cache != NULL, NULL);
 
@@ -324,7 +324,7 @@ gst_shifter_cache_ref (GstShifterCache * cache)
 }
 
 static void
-gst_shifter_cache_free (GstShifterCache * cache)
+gst_ts_cache_free (GstTSCache * cache)
 {
   int i;
 
@@ -340,23 +340,23 @@ gst_shifter_cache_free (GstShifterCache * cache)
 }
 
 /**
- * gst_shifter_cache_unref:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_unref:
+ * @cache: a #GstTSCache
  *
  * Unref @cache and free the resources when the refcount reaches 0.
  *
  */
 void
-gst_shifter_cache_unref (GstShifterCache * cache)
+gst_ts_cache_unref (GstTSCache * cache)
 {
   g_return_if_fail (cache != NULL);
 
   if (g_atomic_int_dec_and_test (&cache->refcount))
-    gst_shifter_cache_free (cache);
+    gst_ts_cache_free (cache);
 }
 
 static inline gboolean
-gst_shifter_cache_recycle (GstShifterCache * cache, Slot * slot)
+gst_ts_cache_recycle (GstTSCache * cache, Slot * slot)
 {
   gboolean recycle;
   recycle = g_atomic_int_compare_and_exchange (&slot->state, STATE_RECYCLE,
@@ -371,7 +371,7 @@ gst_shifter_cache_recycle (GstShifterCache * cache, Slot * slot)
 }
 
 static inline gboolean
-gst_shifter_cache_rollback (GstShifterCache * cache, Slot * slot)
+gst_ts_cache_rollback (GstTSCache * cache, Slot * slot)
 {
   gboolean rollback;
   rollback = g_atomic_int_compare_and_exchange (&slot->state, STATE_RECYCLE,
@@ -385,7 +385,7 @@ gst_shifter_cache_rollback (GstShifterCache * cache, Slot * slot)
 }
 
 static inline gboolean
-gst_shifter_cache_rollforward (GstShifterCache * cache, Slot * slot)
+gst_ts_cache_rollforward (GstTSCache * cache, Slot * slot)
 {
   gboolean rollforward;
   rollforward = g_atomic_int_compare_and_exchange (&slot->state, STATE_FULL,
@@ -399,8 +399,8 @@ gst_shifter_cache_rollforward (GstShifterCache * cache, Slot * slot)
 }
 
 /**
- * gst_shifter_cache_pop:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_pop:
+ * @cache: a #GstTSCache
  *
  * Get the head of the cache.
  *
@@ -409,7 +409,7 @@ gst_shifter_cache_rollforward (GstShifterCache * cache, Slot * slot)
  */
 
 GstBuffer *
-gst_shifter_cache_pop (GstShifterCache * cache, gboolean drain)
+gst_ts_cache_pop (GstTSCache * cache, gboolean drain)
 {
   GstBuffer *buffer = NULL;
   Slot *head;
@@ -449,8 +449,8 @@ gst_shifter_cache_pop (GstShifterCache * cache, gboolean drain)
 }
 
 /**
- * gst_shifter_cache_push:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_push:
+ * @cache: a #GstTSCache
  * @data: pointer to the data to be inserted in the cache
  * @size: size in bytes of provided data
  *
@@ -459,7 +459,7 @@ gst_shifter_cache_pop (GstShifterCache * cache, gboolean drain)
  */
 
 gboolean
-gst_shifter_cache_push (GstShifterCache * cache, guint8 * data, gsize size)
+gst_ts_cache_push (GstTSCache * cache, guint8 * data, gsize size)
 {
   Slot *tail;
   gsize avail;
@@ -474,7 +474,7 @@ gst_shifter_cache_push (GstShifterCache * cache, guint8 * data, gsize size)
     dump_cache_state (cache, "pre-push");
 #endif
     tail = &cache->slots[cache->tail];
-    gst_shifter_cache_recycle (cache, tail);
+    gst_ts_cache_recycle (cache, tail);
     if (slot_available (tail, &avail)) {
       avail = MIN (avail, size);
       if (slot_write (tail, data, avail, cache->h_rb_offset)) {
@@ -499,15 +499,15 @@ gst_shifter_cache_push (GstShifterCache * cache, guint8 * data, gsize size)
 }
 
 /**
- * gst_shifter_cache_has_offset:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_has_offset:
+ * @cache: a #GstTSCache
  * @offset: byte offset to check if is in the cache.
  *
  * Checks if an specified offset can be found on the cache.
  *
  */
 gboolean
-gst_shifter_cache_has_offset (GstShifterCache * cache, guint64 offset)
+gst_ts_cache_has_offset (GstTSCache * cache, guint64 offset)
 {
   gboolean ret;
   g_return_val_if_fail (cache != NULL, FALSE);
@@ -521,14 +521,14 @@ gst_shifter_cache_has_offset (GstShifterCache * cache, guint64 offset)
 }
 
 /**
- * gst_shifter_cache_get_total_bytes_received:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_get_total_bytes_received:
+ * @cache: a #GstTSCache
  *
  * Returns the total number of bytes which have been written into the cache
  * equivalent to the "duration" of the cache in bytes.
  */
 guint64
-gst_shifter_cache_get_total_bytes_received (GstShifterCache * cache)
+gst_ts_cache_get_total_bytes_received (GstTSCache * cache)
 {
   guint64 offset;
   GST_CACHE_LOCK (cache);
@@ -538,8 +538,8 @@ gst_shifter_cache_get_total_bytes_received (GstShifterCache * cache)
 }
 
 /**
- * gst_shifter_cache_seek:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_seek:
+ * @cache: a #GstTSCache
  * @offset: byte offset where the cache have to be repositioned.
  *
  * Reconfigures the cache to read from the closest location to the specified
@@ -547,7 +547,7 @@ gst_shifter_cache_get_total_bytes_received (GstShifterCache * cache)
  *
  */
 gboolean
-gst_shifter_cache_seek (GstShifterCache * cache, guint64 offset)
+gst_ts_cache_seek (GstTSCache * cache, guint64 offset)
 {
   Slot *head;
   g_return_val_if_fail (cache != NULL, FALSE);
@@ -576,29 +576,29 @@ gst_shifter_cache_seek (GstShifterCache * cache, guint64 offset)
       if (offset < GST_BUFFER_OFFSET (head->buffer) + head->size) {
         GST_DEBUG ("found in current head");
         /* Already in the requested position so do nothing */
-        gst_shifter_cache_rollback (cache, head);
+        gst_ts_cache_rollback (cache, head);
         goto beach;
       }
       /* perform seek in the future */
       GST_DEBUG ("seeking in the future");
       do {
-        gst_shifter_cache_rollforward (cache, head);
+        gst_ts_cache_rollforward (cache, head);
         seeker = (seeker + 1) % cache->nslots;
         head = &cache->slots[seeker];
       } while (!(offset >= GST_BUFFER_OFFSET (head->buffer) &&
               offset < GST_BUFFER_OFFSET (head->buffer) + head->size));
-      gst_shifter_cache_rollback (cache, head);
+      gst_ts_cache_rollback (cache, head);
     } else {
       /* perform seek in the past */
       GST_DEBUG ("seeking in the past");
-      gst_shifter_cache_rollback (cache, head);
+      gst_ts_cache_rollback (cache, head);
       do {
         if (seeker == 0)
           seeker = cache->nslots - 1;
         else
           seeker--;
         head = &cache->slots[seeker];
-        if (!gst_shifter_cache_rollback (cache, head)) {
+        if (!gst_ts_cache_rollback (cache, head)) {
           seeker = (seeker + 1) % cache->nslots;
           break;
         }
@@ -616,14 +616,14 @@ beach:
 }
 
 /**
- * gst_shifter_cache_is_empty:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_is_empty:
+ * @cache: a #GstTSCache
  *
  * Return TRUE if cache is empty.
  *
  */
 gboolean
-gst_shifter_cache_is_empty (GstShifterCache * cache)
+gst_ts_cache_is_empty (GstTSCache * cache)
 {
   gboolean is_empty = TRUE;
 
@@ -635,18 +635,18 @@ gst_shifter_cache_is_empty (GstShifterCache * cache)
 }
 
 /**
- * gst_shifter_cache_fullness:
- * @cache: a #GstShifterCache
+ * gst_ts_cache_fullness:
+ * @cache: a #GstTSCache
  *
  * Return # of bytes remaining in the ringbuffer.
  *
  */
 guint64
-gst_shifter_cache_fullness (GstShifterCache * cache)
+gst_ts_cache_fullness (GstTSCache * cache)
 {
   g_return_val_if_fail (cache != NULL, 0);
 
-  if (gst_shifter_cache_is_empty (cache)) {
+  if (gst_ts_cache_is_empty (cache)) {
     return 0;
   } else {
     Slot *head, *tail;

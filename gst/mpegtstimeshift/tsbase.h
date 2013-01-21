@@ -18,30 +18,30 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __FLUTSBASE_H__
-#define __FLUTSBASE_H__
+#ifndef __TS_BASE_H__
+#define __TS_BASE_H__
 
 #include "tscache.h"
 
 G_BEGIN_DECLS
-#define GST_FLUTSBASE_TYPE \
-  (gst_flutsbase_get_type())
-#define GST_FLUTSBASE(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_FLUTSBASE_TYPE,GstFluTSBase))
-#define GST_FLUTSBASE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST((klass),GST_FLUTSBASE_TYPE,GstFluTSBaseClass))
-#define GST_IS_FLUTSBASE(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_FLUTSBASE_TYPE))
-#define GST_IS_FLUTSBASE_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_FLUTSBASE_TYPE))
-#define GST_FLUTSBASE_CAST(obj) \
-  ((GstFluTSBase *)(obj))
-#define GST_FLUTSBASE_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj),GST_FLUTSBASE_TYPE,GstFluTSBaseClass))
-typedef struct _GstFluTSBase GstFluTSBase;
-typedef struct _GstFluTSBaseClass GstFluTSBaseClass;
+#define GST_TS_BASE_TYPE \
+  (gst_ts_base_get_type())
+#define GST_TS_BASE(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TS_BASE_TYPE,GstTSBase))
+#define GST_TS_BASE_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass),GST_TS_BASE_TYPE,GstTSBaseClass))
+#define GST_IS_TS_BASE(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TS_BASE_TYPE))
+#define GST_IS_TS_BASE_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TS_BASE_TYPE))
+#define GST_TS_BASE_CAST(obj) \
+  ((GstTSBase *)(obj))
+#define GST_TS_BASE_GET_CLASS(obj) \
+  (G_TYPE_INSTANCE_GET_CLASS ((obj),GST_TS_BASE_TYPE,GstTSBaseClass))
+typedef struct _GstTSBase GstTSBase;
+typedef struct _GstTSBaseClass GstTSBaseClass;
 
-struct _GstFluTSBase
+struct _GstTSBase
 {
   GstElement element;
 
@@ -60,7 +60,7 @@ struct _GstFluTSBase
   gboolean need_newsegment;
 
   /* the cache of data we're keeping our hands on */
-  GstShifterCache *cache;
+  GstTSCache *cache;
   guint64 cache_size;
 
   guint cur_bytes;              /* current position in bytes  */
@@ -73,12 +73,12 @@ struct _GstFluTSBase
   GstEvent *stream_start_event;
 };
 
-struct _GstFluTSBaseClass
+struct _GstTSBaseClass
 {
   GstElementClass parent_class;
 };
 
-GType gst_flutsbase_get_type (void);
+GType gst_ts_base_get_type (void);
 
 G_END_DECLS
-#endif /* __FLUTSBASE_H__ */
+#endif /* __TS_BASE_H__ */

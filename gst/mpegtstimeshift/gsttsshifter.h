@@ -18,38 +18,38 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef __FLUTSMPEG_H__
-#define __FLUTSMPEG_H__
+#ifndef __GST_TS_SHIFTER_H__
+#define __GST_TS_SHIFTER_H__
 
 #include "tsbase.h"
 
 G_BEGIN_DECLS
-#define GST_FLUMPEGSHIFTER_TYPE \
-  (gst_flumpegshifter_get_type())
-#define GST_FLUMPEGSHIFTER(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_FLUMPEGSHIFTER_TYPE,GstFluMPEGShifter))
-#define GST_FLUMPEGSHIFTER_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST((klass),GST_FLUMPEGSHIFTER_TYPE,GstFluMPEGShifterClass))
-#define GST_IS_FLUTSMPEG(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_FLUMPEGSHIFTER_TYPE))
-#define GST_IS_FLUTSMPEG_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_FLUMPEGSHIFTER_TYPE))
-#define GST_FLUMPEGSHIFTER_CAST(obj) \
-  ((GstFluMPEGShifter *)(obj))
-typedef struct _GstFluMPEGShifter GstFluMPEGShifter;
-typedef struct _GstFluMPEGShifterClass GstFluMPEGShifterClass;
+#define GST_TS_SHIFTER_TYPE \
+  (gst_ts_shifter_get_type())
+#define GST_TS_SHIFTER(obj) \
+  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TS_SHIFTER_TYPE,GstTSShifter))
+#define GST_TS_SHIFTER_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_CAST((klass),GST_TS_SHIFTER_TYPE,GstTSShifterClass))
+#define GST_IS_TS_SHIFTER(obj) \
+  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TS_SHIFTER_TYPE))
+#define GST_IS_TS_SHIFTER_CLASS(klass) \
+  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TS_SHIFTER_TYPE))
+#define GST_TS_SHIFTER_CAST(obj) \
+  ((GstTSShifter *)(obj))
+typedef struct _GstTSShifter GstTSShifter;
+typedef struct _GstTSShifterClass GstTSShifterClass;
 
-struct _GstFluMPEGShifter
+struct _GstTSShifter
 {
-  GstFluTSBase parent;
+  GstTSBase parent;
 };
 
-struct _GstFluMPEGShifterClass
+struct _GstTSShifterClass
 {
-  GstFluTSBaseClass parent_class;
+  GstTSBaseClass parent_class;
 };
 
-GType gst_flumpegshifter_get_type (void);
+GType gst_ts_shifter_get_type (void);
 
 G_END_DECLS
-#endif /* __FLUTSMPEG_H__ */
+#endif /* __GST_TS_SHIFTER_H__ */

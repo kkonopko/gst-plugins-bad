@@ -240,7 +240,7 @@ struct _GstTSIndexClass
 
 GType gst_ts_index_get_type (void);
 
-GstTSIndex *gst_tsmemindex_new (void);
+GstTSIndex *gst_ts_memindex_new (void);
 
 GstTSIndexEntry *gst_ts_index_add_associationv (GstTSIndex * index,
     GstTSIndexAssociationFlags flags, gint n,
@@ -273,7 +273,7 @@ gboolean gst_ts_index_entry_assoc_map (GstTSIndexEntry * entry,
 #define GstIndexEntry GstTSIndexEntry
 #define GstIndexAssociation GstTSIndexAssociation
 
-#define gst_index_factory_make(name) gst_tsmemindex_new()
+#define gst_index_factory_make(name) gst_ts_memindex_new()
 #define gst_index_get_writer_id gst_ts_index_get_writer_id
 #define gst_index_add_associationv gst_ts_index_add_associationv
 #define gst_index_get_assoc_entry gst_ts_index_get_assoc_entry

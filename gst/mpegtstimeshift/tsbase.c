@@ -55,7 +55,7 @@ enum
       gst_ts_cache_fullness (ts->cache))
 
 #define FLOW_MUTEX_LOCK(ts) G_STMT_START {                                \
-  g_mutex_lock (ts->flow_lock);                                           \
+  g_mutex_lock (&ts->flow_lock);                                          \
 } G_STMT_END
 
 #define FLOW_MUTEX_LOCK_CHECK(ts,res,label) G_STMT_START {                \
@@ -65,12 +65,12 @@ enum
 } G_STMT_END
 
 #define FLOW_MUTEX_UNLOCK(ts) G_STMT_START {                              \
-  g_mutex_unlock (ts->flow_lock);                                         \
+  g_mutex_unlock (&ts->flow_lock);                                        \
 } G_STMT_END
 
 #define FLOW_WAIT_ADD_CHECK(ts, res, label) G_STMT_START {                \
   STATUS (ts, ts->srcpad, "wait for ADD");                                \
-  g_cond_wait (ts->buffer_add, ts->flow_lock);                            \
+  g_cond_wait (&ts->buffer_add, &ts->flow_lock);                          \
   if (res != GST_FLOW_OK) {                                               \
     STATUS (ts, ts->srcpad, "received ADD wakeup");                       \
     goto label;                                                           \
@@ -80,7 +80,7 @@ enum
 
 #define FLOW_SIGNAL_ADD(ts) G_STMT_START {                                \
   STATUS (ts, ts->sinkpad, "signal ADD");                                 \
-  g_cond_signal (ts->buffer_add);                                         \
+  g_cond_signal (&ts->buffer_add);                                        \
 } G_STMT_END
 
 static GstElementClass *parent_class = NULL;
@@ -868,8 +868,8 @@ gst_ts_base_finalize (GObject * object)
 
   GST_DEBUG_OBJECT (ts, "finalizing ts_base");
 
-  g_mutex_free (ts->flow_lock);
-  g_cond_free (ts->buffer_add);
+  g_mutex_clear (&ts->flow_lock);
+  g_cond_clear (&ts->buffer_add);
 
   g_free (ts->allocator_name);
 
@@ -943,8 +943,8 @@ gst_ts_base_init (GstTSBase * ts, GstTSBaseClass * klass)
   ts->is_eos = FALSE;
   ts->need_newsegment = TRUE;
 
-  ts->flow_lock = g_mutex_new ();
-  ts->buffer_add = g_cond_new ();
+  g_mutex_init (&ts->flow_lock);
+  g_cond_init (&ts->buffer_add);
 
   ts->allocator_name = NULL;
 

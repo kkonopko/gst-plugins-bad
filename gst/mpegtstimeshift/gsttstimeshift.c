@@ -30,7 +30,7 @@
 GST_DEBUG_CATEGORY (ts_base);
 GST_DEBUG_CATEGORY (ts_flow);
 GST_DEBUG_CATEGORY (ts_shifter);
-GST_DEBUG_CATEGORY (ts_shifter_bin);
+GST_DEBUG_CATEGORY (ts_shifterbin);
 
 static gboolean
 plugin_init (GstPlugin * plugin)
@@ -42,7 +42,7 @@ plugin_init (GstPlugin * plugin)
 
   GST_DEBUG_CATEGORY_INIT (ts_shifter, "ts_shifter", 0, "MPEG Time Shifting");
 
-  GST_DEBUG_CATEGORY_INIT (ts_shifter_bin, "ts_shifterbin", 0,
+  GST_DEBUG_CATEGORY_INIT (ts_shifterbin, "ts_shifterbin", 0,
       "MPEG Time Shifting bin");
 
   if (!gst_element_register (plugin, "tsshifter", GST_RANK_NONE,

@@ -192,7 +192,7 @@ struct _GstTSCache
 {
   volatile gint refcount;
 
-  GMutex *lock;
+  GMutex lock;
 
   guint64 h_offset;             /* highest offset */
   guint64 l_rb_offset;          /* lowest offset in the ringbuffer */
@@ -213,11 +213,11 @@ struct _GstTSCache
 };
 
 #define GST_CACHE_LOCK(cache) G_STMT_START {                                \
-  g_mutex_lock (cache->lock);                                                \
+  g_mutex_lock (&cache->lock);                                              \
 } G_STMT_END
 
 #define GST_CACHE_UNLOCK(cache) G_STMT_START {                              \
-  g_mutex_unlock (cache->lock);                                              \
+  g_mutex_unlock (&cache->lock);                                            \
 } G_STMT_END
 
 
@@ -279,7 +279,7 @@ gst_ts_cache_new (gsize size, const gchar * allocator_name)
 
   cache->refcount = 1;
 
-  cache->lock = g_mutex_new ();
+  g_mutex_init (&cache->lock);
 
   cache->h_offset = 0;
   cache->l_rb_offset = 0;
@@ -334,7 +334,7 @@ gst_ts_cache_free (GstTSCache * cache)
   gst_object_unref (cache->alloc);
   g_free (cache->slots);
 
-  g_mutex_free (cache->lock);
+  g_mutex_clear (&cache->lock);
 
   g_free (cache);
 }

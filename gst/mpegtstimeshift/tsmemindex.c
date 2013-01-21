@@ -20,7 +20,7 @@
 #include "tsindex.h"
 
 #define GST_TYPE_TS_MEM_INDEX              \
-  (gst_flutsindex_get_type ())
+  (gst_ts_memindex_get_type ())
 #define GST_TS_MEM_INDEX(obj)              \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), GST_TYPE_TS_MEM_INDEX, GstTSMemIndex))
 #define GST_TS_MEM_INDEX_CLASS(klass)      \
@@ -178,7 +178,7 @@ gst_ts_memindex_finalize (GObject * object)
 
   /* Then delete the associations themselves */
   if (memindex->associations) {
-    g_list_foreach (memindex->associations, (GFunc) gst_flutsindex_entry_free,
+    g_list_foreach (memindex->associations, (GFunc) gst_ts_index_entry_free,
         NULL);
     g_list_free (memindex->associations);
     memindex->associations = NULL;

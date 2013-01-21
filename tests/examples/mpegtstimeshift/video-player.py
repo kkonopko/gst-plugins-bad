@@ -108,17 +108,15 @@ class Player(object):
         self.bus.connect('sync-message::element', self.on_sync_message)
 
         ring_buffer_size = 512 * 1024 * 1024
-        
-        Gst.filemem_allocator_init(ring_buffer_size, '/tmp/fma-XXXXXX')
 
         # Create GStreamer elements
         self.playbin = Gst.parse_bin_from_description(
             src_description + \
             ' ! queue ' \
-            ' ! flumpegshifterbin name=timeshifter' \
-                ' cache-size=%u allocator-name=%s' \
+            ' ! tsshifterbin name=timeshifter' \
+                ' cache-size=%u' \
             ' ! decodebin ! autovideosink'
-            % (ring_buffer_size, Gst.ALLOCATOR_FILEMEM),
+            % (ring_buffer_size),
             False);
         self.pipeline.add(self.playbin)
 

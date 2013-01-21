@@ -65,8 +65,8 @@ struct _GstTSBase
 
   guint cur_bytes;              /* current position in bytes  */
 
-  GMutex flow_lock;            /* lock for flow control */
-  GCond buffer_add;            /* signals buffers added to the cache */
+  GMutex flow_lock;             /* lock for flow control */
+  GCond buffer_add;             /* signals buffers added to the cache */
 
   gchar *allocator_name;
 

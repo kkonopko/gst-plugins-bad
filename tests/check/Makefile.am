@@ -217,6 +217,7 @@ check_PROGRAMS = \
 	elements/h263parse \
 	elements/h264parse \
 	elements/mpegtsmux \
+	elements/mpegtstimeshift \
 	elements/mpegvideoparse \
 	elements/mpeg4videoparse \
 	$(check_mpg123) \

@@ -31,6 +31,7 @@ mpeg2enc
 mpegvideoparse
 mpeg4videoparse
 mpegtsmux
+mpegtstimeshift
 mpg123audiodec
 mplex
 mxfdemux

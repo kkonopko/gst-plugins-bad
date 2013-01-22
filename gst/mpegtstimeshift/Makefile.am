@@ -7,7 +7,6 @@ libgsttstimeshift_la_SOURCES = \
   gsttsshifter.c \
   gsttsshifterbin.c \
   gsttstimeshift.c \
-  tsbase.c \
   tscache.c \
   tsindex.c \
   tsmemindex.c
@@ -34,6 +33,5 @@ noinst_HEADERS = \
   gsttsseeker.h \
   gsttsshifter.h \
   gsttsshifterbin.h \
-  tsbase.h \
   tscache.h \
   tsindex.h

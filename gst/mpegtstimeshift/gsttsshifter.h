@@ -21,7 +21,7 @@
 #ifndef __GST_TS_SHIFTER_H__
 #define __GST_TS_SHIFTER_H__
 
-#include "tsbase.h"
+#include "tscache.h"
 
 G_BEGIN_DECLS
 #define GST_TS_SHIFTER_TYPE \
@@ -41,12 +41,39 @@ typedef struct _GstTSShifterClass GstTSShifterClass;
 
 struct _GstTSShifter
 {
-  GstTSBase parent;
+  GstElement element;
+
+  /*< private > */
+  GstPad *sinkpad;
+  GstPad *srcpad;
+
+  /* Segment */
+  GstSegment segment;
+
+  /* flowreturn when srcpad is paused */
+  GstFlowReturn srcresult;
+  GstFlowReturn sinkresult;
+  gboolean is_eos;
+  gboolean unexpected;
+  gboolean need_newsegment;
+
+  /* the cache of data we're keeping our hands on */
+  GstTSCache *cache;
+  guint64 cache_size;
+
+  guint cur_bytes;              /* current position in bytes  */
+
+  GMutex flow_lock;             /* lock for flow control */
+  GCond buffer_add;             /* signals buffers added to the cache */
+
+  gchar *allocator_name;
+
+  GstEvent *stream_start_event;
 };
 
 struct _GstTSShifterClass
 {
-  GstTSBaseClass parent_class;
+  GstElementClass parent_class;
 };
 
 GType gst_ts_shifter_get_type (void);

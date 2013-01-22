@@ -27,7 +27,7 @@
   (G_TYPE_CHECK_CLASS_CAST ((klass), GST_TYPE_TS_MEM_INDEX, GstTSMemIndexClass))
 #define GST_IS_TS_MEM_INDEX(obj)           \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_TS_MEM_INDEX))
-#define GST_IS_TS_MEM_INDEX_CLASS(klass)     \
+#define GST_IS_TS_MEM_INDEX_CLASS(klass)   \
   (GST_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_TS_MEM_INDEX))
 
 /*
@@ -102,7 +102,7 @@ static GstTSIndexEntry *gst_ts_memindex_get_assoc_entry (GstTSIndex *
     GstTSIndexAssociationFlags flags, GstFormat format, gint64 value,
     GCompareDataFunc func, gpointer user_data);
 
-#define CLASS(mem_index)  GST_TS_MEM_INDEX_CLASS (G_OBJECT_GET_CLASS (mem_index))
+#define CLASS(mem_index) GST_TS_MEM_INDEX_CLASS (G_OBJECT_GET_CLASS (mem_index))
 
 static GType gst_ts_memindex_get_type (void);
 
